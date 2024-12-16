@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .cart-item img {
+            max-width: 100px;
+            margin-right: 10px;
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Cart</h1>
+        
+        <!-- Cart Items Section -->
+        <div id="cartItems"></div> <!-- Placeholder for cart items -->
+        
+        <p id="totalPrice"></p> <!-- Placeholder for total price -->
+        
+        <button id="checkoutBtn">Proceed to Checkout</button>
+        <button id="backToHomeBtn">Back to Home</button>
+    </div>
+
+    <script>
+        // Retrieve cart items from local storage
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItemsDiv = document.getElementById('cartItems');
+        const totalPriceDiv = document.getElementById('totalPrice');
+
+        if (cartItems.length > 0) {
+            cartItemsDiv.innerHTML = '<h2>Your Cart Items</h2>';
+            let totalPrice = 0;
+
+            cartItems.forEach(item => {
+                cartItemsDiv.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.title}" class="product-img">
+                        <p><strong>${item.title}</strong></p>
+                        <p>Price: $${item.price.toFixed(2)}</p>
+                        <button onclick="buyNow(${JSON.stringify(item)})">Buy Now</button> <!-- Buy Now Button -->
+                        <button onclick="removeFromCart('${item.title}')">Remove</button> <!-- Remove Button -->
+                    </div>
+                `;
+                totalPrice += item.price; // Calculate total price
+            });
+
+            totalPriceDiv.innerHTML = `<strong>Total Price: $${totalPrice.toFixed(2)}</strong>`;
+        } else {
+            cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+            totalPriceDiv.innerHTML = ''; // Clear total price if cart is empty
+        }
+
+        // Event listener for Back to Home button
+        document.getElementById("backToHomeBtn").addEventListener("click", function() {
+            window.location.href = "home.html"; // Redirect to home page
+        });
+
+        // Event listener for Checkout button
+        document.getElementById("checkoutBtn").addEventListener("click", function() {
+            // Implement checkout functionality here
+            alert("Proceeding to checkout...");
+            // You can redirect to a checkout page or implement further logic
+        });
+
+        // Buy Now Action
+        function buyNow(product) {
+            localStorage.setItem('selectedProduct', JSON.stringify(product));
+            window.location.href = 'buynow.html'; // Redirect to Buy Now page
+        }
+
+        // Remove Item from Cart
+        function removeFromCart(title) {
+            let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            cartItems = cartItems.filter(item => item.title !== title);
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            location.reload(); // Reload the page to update the cart display
+        }
+    </script>
+</body>
+</html>

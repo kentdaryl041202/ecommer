@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login as Admin</h1>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required><br><br>
+
+            <button type="submit">Login</button>
+            <a href="home.html" style="text-decoration: none; color: blue;">Go Back Home</a>
+
+        </form>
+        <p id="loginMessage"></p>
+    </div>
+
+
+    <script>
+        // Handle form submission (dummy behavior for now)
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const loginMessage = document.getElementById("loginMessage");
+
+            // Placeholder for actual login logic
+            if (email && password) {
+                loginMessage.textContent = "Login successful!";
+                // Redirect to user dashboard (or any page after successful login)
+                window.location.href = "user-dashboard.html"; // Replace with actual redirect link
+            } else {
+                loginMessage.textContent = "Please enter valid credentials.";
+            }
+        });
+    </script>
+</body>
+</html>
